@@ -10,85 +10,23 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+        int carry = 0;
         
-        ListNode c1=l1;
-        ListNode c2=l2;
-        int carry=0;
-        ListNode dummy = new ListNode(-1,null);
-        ListNode curr=dummy;
-        while(c1!=null && c2!=null){
-            int temp=c1.val+c2.val+carry;
-            
-            if(temp<10){
-                ListNode newNode=new ListNode(temp,null);
-                carry=0;
-                curr.next=newNode;
+        while (l1 != null || l2 != null || carry != 0) {
+            int sum = carry;
+            if (l1 != null) {
+                sum += l1.val;
+                l1 = l1.next;
             }
-            else{
-                ListNode newNode=new ListNode((temp%10),null);
-                carry=1;
-                curr.next=newNode;
-                
+            if (l2 != null) {
+                sum += l2.val;
+                l2 = l2.next;
             }
-            
-            curr=curr.next;
-            c1=c1.next;
-            c2=c2.next;
-        }
-        
-        while(c1!=null){
-            if(carry==1){
-                int temp=c1.val+carry;
-                if(temp<10){
-                    ListNode newNode=new ListNode(temp,null);
-                    carry=0;
-                    curr.next=newNode;
-                }
-                else{
-                    ListNode newNode=new ListNode((temp%10),null);
-                    carry=1;
-                    curr.next=newNode;
-                    
-                }
-                curr=curr.next;
-            }
-            else{
-                curr.next=c1;
-                break;
-            }
-            
-            c1=c1.next;
-
-        }
-        
-        
-        while(c2!=null){
-            if(carry==1){
-                int temp=c2.val+carry;
-                if(temp<10){
-                    ListNode newNode=new ListNode(temp,null);
-                    carry=0;
-                    curr.next=newNode;
-                }
-                else{
-                    ListNode newNode=new ListNode((temp%10),null);
-                    carry=1;
-                    curr.next=newNode;
-                    
-                }
-                curr=curr.next;
-            }
-            else{
-                curr.next=c2;
-                break;
-            }
-            
-            c2=c2.next;
-        }
-
-        if(carry==1){
-            ListNode newNode = new ListNode(1,null);
-            curr.next=newNode;
+            curr.next = new ListNode(sum % 10);
+            carry = sum / 10;
+            curr = curr.next;
         }
         
         return dummy.next;

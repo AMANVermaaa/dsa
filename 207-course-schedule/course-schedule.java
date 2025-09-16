@@ -25,11 +25,11 @@ class Solution {
         }
 
 
-        ArrayList<Integer> res = new ArrayList<>();
+        
         int cnt=0;
         while(!q.isEmpty()){
             int node = q.poll();
-            res.add(node);
+            
             cnt++;
 
             for(int it: adj.get(node)){

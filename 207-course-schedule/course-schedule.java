@@ -6,11 +6,11 @@ class Solution {
             adj.add(new ArrayList<Integer>());
         }
 
-        for(int i=0;i<V;i++){
-            for(int[] p: prerequisites){
-                adj.get(p[1]).add(p[0]);
-            }
+        
+        for(int[] p: prerequisites){
+            adj.get(p[1]).add(p[0]);
         }
+        
 
         int[] indegree= new int[V];
         for(int i=0;i<V;i++){

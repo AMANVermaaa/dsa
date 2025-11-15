@@ -1,67 +1,56 @@
 class Solution {
-    class triple{
-        int first;
-        int second;
-        int time;
-        public triple(int first, int second, int time){
-            this.first = first;
-            this.second = second;
-            this.time = time;
+    class triplet{
+        int x;
+        int y;
+        int t;
+        triplet(int x, int y, int t){
+            this.x = x;
+            this.y = y;
+            this.t = t;
         }
     }
-    
     public int orangesRotting(int[][] grid) {
-        
+
+        Queue<triplet> q = new LinkedList<>();
         int m = grid.length;
         int n = grid[0].length;
 
-        int[][] vis = new int[m][n];
-        
-        int cntFresh=0;
-        Queue<triple> q = new LinkedList<>();
-
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==2){
-                    q.offer(new triple(i,j,0));
-                    vis[i][j]=2;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 2){
+                    q.offer(new triplet(i, j, 0));
                 }
-                else {
-                    vis[i][j]=0;
-                }
-
-                if(grid[i][j]==1) cntFresh++;
             }
         }
 
-        int time = 0;
-        int count = 0;
+        int row[] = {-1,0,1,0};
+        int col[] = {0,-1,0,1};
 
-        int[] delrow = {-1,0,1,0};
-        int[] delcol = {0,-1,0,1};
+        int maxi = 0;
+
         while(!q.isEmpty()){
-            int row = q.peek().first;
-            int col = q.peek().second;
-            int t = q.peek().time;
-            time = Math.max(t,time);
+            triplet node = q.poll();
 
-            q.poll();
-
-            for(int i=0;i<4;i++){
-                int nrow = row + delrow[i];
-                int ncol = col + delcol[i];
-
-                if(nrow >= 0 && ncol >= 0 && nrow < m && ncol < n && grid[nrow][ncol]==1 && vis[nrow][ncol]==0){
-                    vis[nrow][ncol]=2;
-                    q.offer(new triple(nrow, ncol, time+1));
-                    count++;
+            for(int i = 0;i < 4; i++){
+                int r = node.x + row[i];
+                int c = node.y + col[i];
+                int t = node.t;
+                if(r >= 0 && r < m && c >= 0 && c < n && grid[r][c] == 1){
+                    q.offer(new triplet(r, c, t+1));
+                    grid[r][c] = 2;
                 }
-                
+                maxi = Math.max(maxi, t);
             }
+            
 
         }
 
-        if(count == cntFresh) return time;
-        return -1;
+        for(int i = 0;i < m; i++){
+            for(int j = 0;j < n; j++){
+                if(grid[i][j] == 1) return -1;
+            }
+        }
+
+        return maxi;
     }
 }

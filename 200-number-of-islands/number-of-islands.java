@@ -1,58 +1,42 @@
 class Solution {
-    class pair{
-        int first;
-        int second;
-        pair(int first, int second){
-            this.first = first;
-            this.second = second;
-        }
-    }
-
-    public void bfs(int row, int col, int[][] vis, char[][] grid){
-
-        int m = grid.length;
-        int n = grid[0].length;
-        vis[row][col]=1;
-        Queue<pair> q = new LinkedList<>();
-        q.offer(new pair(row, col));
-        
-        int[] drow= {-1,0,1,0};
-        int[] dcol= {0,-1,0,1}; 
-        while(!q.isEmpty()){
-            int nrow= q.peek().first;
-            int ncol= q.peek().second;
-
-            q.remove();
-
-            for(int i =0;i<4;i++){
-                int ro = nrow +drow[i];
-                int co = ncol +dcol[i];
-
-                if(ro>=0 && co>=0 && ro<m && co<n && vis[ro][co]==0 && grid[ro][co]=='1'){
-                    vis[ro][co]=1;
-                    q.offer(new pair(ro,co));
-                }
-            }
-
-
-        }
-
-    }
     
     public int numIslands(char[][] grid) {
+        
         int m = grid.length;
         int n = grid[0].length;
 
         int[][] vis = new int[m][n];
-        int count=0;
+
+        int count = 0;
+         
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(vis[i][j] == 0 && grid[i][j]=='1'){
+                if(grid[i][j] == '1' && vis[i][j] == 0){
                     count++;
-                    bfs(i,j,vis,grid);
+                    
+                    dfs(i, j, grid, vis);
+                    
                 }
             }
         }
+
         return count;
+
+    }
+
+    int[] row = {0,-1,0,1};
+    int[] col = {-1,0,1,0};
+
+    public void dfs(int i, int j, char[][] grid, int[][] vis){
+        vis[i][j] = 1;
+        
+        for(int k=0;k<4;k++){
+            int nrow = i+row[k];
+            int ncol = j+col[k];
+
+            if(nrow>=0 && ncol>=0 && nrow<grid.length && ncol<grid[0].length && grid[nrow][ncol] == '1' && vis[nrow][ncol] == 0){
+                    dfs(nrow, ncol, grid, vis);
+            }
+        }
     }
 }

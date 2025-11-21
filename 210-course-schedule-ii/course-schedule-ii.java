@@ -1,47 +1,45 @@
 class Solution {
-    public int[] findOrder(int V, int[][] prerequisites) {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        int[] indegree = new int[numCourses];
+        Queue<Integer> q = new LinkedList<>();
 
-        for(int i=0;i<V;i++){
-            adj.add(new ArrayList<Integer>());
+        for(int i=0;i<numCourses;i++){
+            adj.add(new ArrayList<>());
         }
 
-        
-        for(int[] p: prerequisites){
-            adj.get(p[1]).add(p[0]);
+        for(int i=0;i<prerequisites.length;i++){
+            adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
         }
-        
 
-        int[] indegree= new int[V];
-        for(int i=0;i<V;i++){
-            for(int it: adj.get(i)){
-                indegree[it]++;
+        for(int i=0;i<numCourses;i++){
+            for(int neighbor: adj.get(i)){
+                indegree[neighbor]++;
             }
         }
-        
 
-        Queue<Integer> q = new LinkedList<>();
-        for(int i=0;i<V;i++){
-            if(indegree[i]==0) q.offer(i);
+        for(int i=0;i<numCourses;i++){
+            if(indegree[i]==0){
+                q.offer(i);
+            }
         }
-
-        
-        int[] res = new int[V];
-        
-        int cnt=0;
+        int[] res = new int[numCourses];
         int i=0;
+        int visited=0;
         while(!q.isEmpty()){
             int node = q.poll();
-            res[i++]=node;
-            cnt++;
-
-            for(int it: adj.get(node)){
-                indegree[it]--;
-                if(indegree[it]==0) q.offer(it);
+            visited++;
+            for(int neighbor: adj.get(node)){
+                indegree[neighbor]--;
+                if(indegree[neighbor]==0) q.offer(neighbor);
             }
+            res[i++]=node;
         }
-
-        if(cnt==V) return res;
+        if(visited==numCourses) return res;
         return new int[0];
+
+
+
     }
 }

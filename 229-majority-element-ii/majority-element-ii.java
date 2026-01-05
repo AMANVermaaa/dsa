@@ -1,29 +1,32 @@
 class Solution {
     public List<Integer> majorityElement(int[] nums) {
-        int candidate1 = -1;
-        int votes1=0;
-        int candidate2 = -1;
-        int votes2=0;
-
-        for(int num:nums){
-            if(candidate1 == num) votes1++;
-            else if(candidate2 == num) votes2++;
-            else if(votes1==0) {candidate1=num;  votes1++;}
-            else if(votes2==0) {candidate2=num;  votes2++;}
-            else {votes1--; votes2--;}
-        }
-
-        int count1=0;
-        int count2=0;
-        for(int num: nums){
-            if(candidate1==num) count1++;
-            else if(candidate2==num) count2++;
-        }
-        List<Integer> ls = new ArrayList<>();
-
-        if(count1>nums.length/3) ls.add(candidate1);
-        if(count2>nums.length/3) ls.add(candidate2);
         
-        return ls;
+        int cand1 = -1;
+        int vote1 = 0;
+        int cand2 = -1;
+        int vote2 = 0;
+
+        for(int num: nums){
+            if(cand1 == num) vote1++;
+            else if(cand2 == num) vote2++;
+            else if(vote1 == 0) {cand1 = num; vote1++;}
+            else if(vote2 == 0) {cand2 = num; vote2++;}
+            else {vote1--; vote2--;}
+        }
+
+        int cnt1 = 0;
+        int cnt2 = 0;
+
+        for(int num: nums){
+            if(cand1 == num) cnt1++;
+            else if(cand2 == num) cnt2++;
+        }
+        
+        List<Integer> res = new ArrayList<>();
+
+        if(cnt1>nums.length/3) res.add(cand1);
+        if(cnt2>nums.length/3) res.add(cand2);
+
+        return res;
     }
 }

@@ -12,8 +12,8 @@ class Solution {
             if(mp.containsKey(t.charAt(i))) mp.put(t.charAt(i),mp.get(t.charAt(i))-1);
             else return false;
         }
-        for(int i=0;i<t.length();i++){
-            if(mp.get(s.charAt(i))<0){
+        for (int count : mp.values()) {
+            if (count != 0) {
                 return false;
             }
         }

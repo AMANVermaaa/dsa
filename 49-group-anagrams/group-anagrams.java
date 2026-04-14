@@ -1,42 +1,27 @@
 class Solution {
-    public String getFrequencyString(String s){
-        int[] freq = new int[26];
-
-        for(char c : s.toCharArray()){
-            freq[c-'a']++;
+    public String getHash(String str){
+        int[] arr = new int[26];
+        StringBuilder temp = new StringBuilder();
+        for(char ch : str.toCharArray()){
+            arr[ch-'a']++;
         }
-        StringBuilder str= new StringBuilder("");
-        char c = 'a';
-        for(int i : freq){
-            str.append(c);
-            str.append(i);
-            c++;
+        for(int i=0;i<26;i++){
+            temp.append(arr[i]);
+            temp.append('#');
         }
-
-        return str.toString();
+        return temp.toString();
     }
     public List<List<String>> groupAnagrams(String[] strs) {
-        if(strs == null || strs.length == 0) return new ArrayList<>();
-        Map<String, List<String>> frequencyMap = new HashMap<>();
-        
-
+        List<List<String>> res = new LinkedList<>();
+        Map<String, Integer> mp = new HashMap<>();
         for(String s : strs){
-            String frequencyString = getFrequencyString(s);
-
-            if(frequencyMap.containsKey(frequencyString)){
-                frequencyMap.get(frequencyString).add(s);
-
+            String key = getHash(s);
+            if(!mp.containsKey(key)){
+                mp.put(key, res.size());
+                res.add(new ArrayList<>());
             }
-            else{
-                List<String> strlist = new ArrayList<>();
-                strlist.add(s);
-                frequencyMap.put(frequencyString,strlist);
-
-            }
-
-
+            res.get(mp.get(key)).add(s);
         }
-
-        return new ArrayList<>(frequencyMap.values());
+        return res;
     }
 }

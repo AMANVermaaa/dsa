@@ -9,7 +9,7 @@ class Solution {
             count[s.charAt(right)-'A']++;
             maxCount = Math.max(maxCount, count[s.charAt(right)-'A']);
 
-            while(right - left + 1 - maxCount > k){
+            if(right - left + 1 - maxCount > k){
                 count[s.charAt(left)-'A']--;
                 left++;
             }

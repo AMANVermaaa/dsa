@@ -1,6 +1,6 @@
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new LinkedList<>();
         int left = 0;
         int right = k-1;
         
